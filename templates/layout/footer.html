@@ -1,0 +1,97 @@
+{% load staticfiles %}
+
+<div class="logo_brand wow fadeInUp">
+    <div class="container">
+        <div class="block-social">
+            <a href="#"><img src="{% static 'user/img/social-1.png' %}" alt=""></a>
+            <a href="#"><img src="{% static 'user/img/social-2.png' %}" alt=""></a>
+            <a href="#"><img src="{% static 'user/img/social-3.png' %}" alt=""></a>
+            <a href="#"><img src="{% static 'user/img/social-4.png' %}" alt=""></a>
+            <a href="#"><img src="{% static 'user/img/social-5.png' %}" alt=""></a>
+            <a href="#"><img src="{% static 'user/img/social-6.png' %}" alt=""></a>
+            <a href="#"><img src="{% static 'user/img/social-7.png' %}" alt=""></a>
+        </div>
+    </div>
+</div>
+
+<footer id="footer">
+    <div class="footer_menu ">
+        <div class="container">
+            <ul class="main-nav">
+                <li class="hidden-xs" class="active"><a href="/">Trang chủ</a></li>
+                <li class="hidden-xs">
+                    <a href="{% url 'product:index' %}">Sản phẩm</a>
+                </li>
+                <li class="hidden-xs"><a href="{% url 'post:index' %}">Blog</a></li>
+                <li class="hidden-xs"><a href="{% url 'home:contact' %}">Giới thiệu</a></li>
+                <li class="hotline_phone">
+                    <a href="tel:+840932071369">0982.934.068</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="container">
+        <div class="top-footer">
+            <div class="row">
+                <div class="col-md-3 col-xs-6 col-sm-12">
+                    <!--<div class="logo_footer">
+                        <img src="http://bizweb.dktcdn.net/100/027/105/themes/35105/assets/logo_footer.png?1452129776412"/>
+                    </div>-->
+                    <h3>Địa chỉ Vàng Đen</h3>
+                    <ul class="address_top">
+                        <li><i class="fa fa-map-marker"></i> Số 26/422 Tô Hiệu, Quận Lê Chân, Hải Phòng</li>
+                        <li><i class="fa fa-phone"></i> Điện thoại: 0982.934.068</li>
+                    </ul>
+                </div>
+                <div class="col-md-5 col-xs-6 col-sm-12">
+                    <h3>Giới thiệu về Vàng Đen</h3>
+
+                    <div class="footer_des">
+                        <p>Vàng Đen tự hào là doanh nghiệp tư nhân, đại lý dầu chính hãng tại miền Bắc. Sản phẩm bán tại Vàng Đen luôn đảm bảo nguồn góc xuất xứ rõ
+                            ràng, chính sách bán</p>
+                        <a href="#"><i class="fa fa-facebook-official"></i></a>
+                        <a href="#"><i class="fa fa-twitter-square"></i></a>
+                        <a href="#"><i class="fa fa-google-plus-square"></i></a>
+                        <a href="#"><i class="fa fa-vimeo-square"></i></a>
+                        <a href="#"><i class="fa fa-pinterest-square"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12 hidden-xs">
+                    <h3>Đăng ký nhận email</h3>
+
+                    <div class="newsletter">
+                        <form accept-charset='UTF-8' id='contact' method='post'>
+                            <input name='utf8' type='hidden' value='true'/>
+
+                            <p>Hãy đăng ký email để chúng tôi có thế gửi những thông tin khuyến mại hấp dẫn tới bạn
+                                nhanh nhất</p>
+                            <input name="contact[email]" type="email" placeholder="Email của bạn"
+                                   class="input-text required-entry validate-email" title="Sign up for our newsletter"
+                                   id="newsletter1" value="">
+                            <button class="subscribe" title="Subscribe" type="submit"><span>Đăng ký</span></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9">
+                    <p>© Bản quyền thuộc về <a style="color: #fff">@2016</a> | Cung cấp bởi <a href="#"
+                                                                                                style="color: #fff">2016</a>
+                    </p>
+                </div>
+                <div class="col-md-3 payment-method">
+                    <img src="{% static 'user/img/mastercard.png' %}">
+                    <img src="{% static 'user/img/visa.png' %}">
+                    <img src="{% static 'user/img/paypal.png' %}">
+                    <img src="{% static 'user/img/meastro.png' %}">
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<div id="back-top"><i class="fa fa-angle-up"></i></div>

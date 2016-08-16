@@ -1,0 +1,171 @@
+{% extends 'admin/layout/base.html' %}
+
+{% block css %}
+{% endblock %}
+
+{% block content %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Quản lý
+            <small>Thông tin</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="/admin"><i class="fa fa-dashboard"></i> Quản lý</a></li>
+            <li class="active">Thông tin</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Info boxes -->
+        <div class="row">
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-aqua"><i class="ion ion-ios-gear-outline"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">{{ request.user.username }}</span>
+                        <span class="info-box-number">{{ request.user.last_login|date:'d/m/Y H:s' }}<small></small></span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <!-- fix for small devices only -->
+            <div class="clearfix visible-sm-block"></div>
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Tổng sản phẩm</span>
+                        <span class="info-box-number">{{ product_count }}</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Tổng tin tức</span>
+                        <span class="info-box-number">{{ post_count }}</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- Main row -->
+        <div class="row">
+            <!-- Left col -->
+            <div class="col-md-8">
+                <!-- TABLE: LATEST ORDERS -->
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Tin mới</h3>
+
+                        <div class="box-tools pull-right">
+                            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                            <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th style="width: 10px">#</th>
+                                    <th>Hình ảnh</th>
+                                    <th>Danh mục</th>
+                                    <th>Tên</th>
+                                    <th>Mô tả</th>
+                                    <th class="text-center" style="width: 200px">Lựa chọn</th>
+                                </tr>
+                                {% for item in posts %}
+                                    <tr>
+                                        <td>{{ item.id }}.</td>
+                                        <td><img src="{{ item.get_image_url }}" width="50px" height="50px"></td>
+                                        <td>{{ item.category }}</td>
+                                        <td>{{ item.name }}</td>
+                                        <td>{{ item.description|truncatechars:60 }}</td>
+                                        <td class="text-center">
+                                            <a href="{% url 'admin:update_post' item.id %}">
+                                                <span class="badge">Sửa</span>
+                                            </a>
+                                            <a href="#" data-href="{% url 'admin:delete_post' item.id %}"
+                                               data-toggle="modal" data-target="#confirm-delete">
+                                                <span class="badge bg-red">Xoá</span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer clearfix">
+                        <a href="{% url 'admin:create_post' %}" class="btn btn-sm btn-info btn-flat pull-left">Thêm
+                            mới</a>
+                        <a href="{% url 'admin:list_post' %}" class="btn btn-sm btn-default btn-flat pull-right">Danh
+                            sách</a>
+                    </div>
+                    <!-- /.box-footer -->
+                </div>
+                <!-- /.box -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-4">
+                <!-- PRODUCT LIST -->
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Sản phẩm</h3>
+
+                        <div class="box-tools pull-right">
+                            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                            <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <ul class="products-list product-list-in-box">
+                            {% for product in products %}
+                                <li class="item">
+                                    <div class="product-img">
+                                        <img width="50" height="50" src="{{ product.get_image_url }}"
+                                             alt="{{ product }}">
+                                    </div>
+                                    <div class="product-info">
+                                        <a href="javascript::;" class="product-title">{{ product }} <span
+                                                class="label label-warning pull-right">{{ product.price }} đ</span></a>
+									<span class="product-description">
+									{{ product.catalogue }}
+									</span>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer text-center">
+                        <a href="{% url 'admin:list_product' %}" class="uppercase">Danh sách</a>
+                    </div>
+                    <!-- /.box-footer -->
+                </div>
+                <!-- /.box -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
+{% endblock %}
+
+{% block js %}
+{% endblock %}

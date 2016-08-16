@@ -1,0 +1,46 @@
+{% extends 'layout/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+    <div class="container">
+
+        <div class="breadcrumb hidden-xs">
+            <ul>
+                <li><a href="/">Trang chủ</a></li>
+                <li><i class="fa fa-angle-right"></i></li>
+
+                <li class="active">Tin tức</li>
+
+            </ul>
+        </div>
+        <div class="row">
+            <div class="content-blog">
+                {% for post in object_list %}
+                    <div class="col-md-4 col-sm-6">
+                        <div class="blog-inner">
+                            <div class="blog-img">
+                                <a href="{% url 'post:detail' post.id post.slug %}">
+                                    <img src="{{ post.get_image_url }}"
+                                         alt="">
+                                </a>
+                            </div>
+                            <h3><b><a href="{% url 'post:detail' post.id post.slug %}">{{ post }}</a></b></h3>
+
+                            <p class="blog-description"> {{ post.description|truncatechars:110 }} <br>
+                                <span id="author">Bởi Admin ({{ post.created_date|date:'d/m/Y' }})</span>
+                            </p>
+
+                            <p id="more-info">
+                                <span>
+                                    <a href="{% url 'post:detail' post.id post.slug %}">Đọc thêm <i
+                                            class="fa fa-angle-right"></i>
+                                    </a>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

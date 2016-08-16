@@ -1,0 +1,253 @@
+{% extends 'layout/base.html' %}
+{% load staticfiles %}
+{% load post_tag %}
+{% load humanize %}
+
+{% block css %}
+    <style type="text/css">
+        .carousel-inner > .item > a > img, .carousel-inner > .item > img, .img-responsive, .thumbnail a > img, .thumbnail > img {
+            width: 100%;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <!-- Sidebar -->
+    <div class="container">
+        <div id="slide">
+            <div class="slider-wrap">
+                <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                    <!-- Indicators -->
+                    <ol class="carousel-indicators">
+                        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                        <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                    </ol>
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner" role="listbox">
+                        <div class="item active">
+                            <a href="#">
+                                <img src="{% static 'user/img/slideshow1.jpg' %}" alt="..."></a>
+                        </div>
+                        <div class="item">
+                            <a href="#">
+                                <img src="{% static 'user/img/slideshow2.jpg' %}" alt="..."></a>
+                        </div>
+                        <div class="item">
+                            <a href="#">
+                                <img src="{% static 'user/img/slideshow3.jpg' %}" alt="..."></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-service hidden-xs">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-sm-6 hidden-xs wow fadeInUp animated">
+                    <div class="content-service">
+                        <a href="#">
+                            <img src="{% static 'user/img/icon1.png' %}">
+                            <span>Hướng dẫn</span>
+
+                            <p>Mua hàng</p>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 hidden-xs wow fadeInUp animated">
+                    <div class="content-service">
+                        <a href="#">
+                            <img src="{% static 'user/img/icon2.png' %}">
+                            <span>Chính sách</span>
+
+                            <p>Ưu đãi</p>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 hidden-xs wow fadeInUp animated">
+                    <div class="content-service">
+                        <a href="#">
+                            <img src="{% static 'user/img/icon3.png' %}">
+                            <span>Thông tin</span>
+
+                            <p>Công ty</p>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 hidden-xs wow fadeInUp animated">
+                    <div class="content-service">
+                        <a href="#">
+                            <img src="{% static 'user/img/icon4.png' %}">
+                            <span>Thông tin </span>
+
+                            <p>Hỗ trợ</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <aside class="col-md-4 col-xs-12" style="display:none;" id="mobile">
+                <div class="collections" id="cate-mobile">
+                    <h3 class="title">
+                        <span class="mobile-but">
+                            <i class="fa fa-bars"></i>
+                            Danh mục sản phẩm
+                        </span>
+                    </h3>
+                    <ul class="list-collections submenu">
+                        {% for item1 in menu %}
+                            <li class="level0">
+                                <a href="{% url 'catalogue:detail' item1.id item1.slug %}">{{ item1 }}
+                                    {% if item1.children.all %}
+                                        <em class="open-close"></em>
+                                    {% endif %}
+                                </a>
+                                {% if item1.children.all %}
+                                    <ul class="submenu sub02">
+                                        {% for item2 in item1.children.all %}
+                                            <li class="level1">
+                                                <a href="{% url 'catalogue:detail' item2.id item2.slug %}">{{ item2 }}</a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </aside>
+            <aside class="col-md-4 col-xs-12 wow fadeInLeft animated hidden-xs hidden-sm">
+                <div class="collections">
+                    <h3>Danh mục sản phẩm</h3>
+                    <ul class="list-collections submenu">
+                        {% for item1 in menu %}
+                            <li class="level0">
+                                <a href="{% url 'catalogue:detail' item1.id item1.slug %}">{{ item1 }}
+                                    {% if item1.children.all %}
+                                        <em class="open-close"></em>
+                                    {% endif %}
+                                </a>
+                                {% if item1.children.all %}
+                                    <ul class="submenu sub02">
+                                        {% for item2 in item1.children.all %}
+                                            <li class="level1">
+                                                <a href="{% url 'catalogue:detail' item2.id item2.slug %}">{{ item2 }}</a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="sidebar-banner hidden-xs hidden-sm">
+                    <a href="">
+                        <img src="{% static 'user/img/banner1.png' %}"
+                             alt=""
+                             class="img-responsive">
+                    </a>
+                </div>
+            </aside>
+            <div class="col-md-8 col-sm-12 col-xs-12">
+                <section class="main-col wow fadeInRight animated">
+                    <div class="product-home">
+                        <div class="product-title">
+                            <h3>Sản phẩm mới</h3>
+                        </div>
+                        <div class="product-content row">
+                            {% for item in product_news %}
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="product-item">
+                                        {% if item.hot %}
+                                            <div class="sale_badge">
+                                                New
+                                            </div>
+                                        {% endif %}
+                                        <div class="product-image">
+                                            <a href="{% url 'product:detail' item.id item.slug %}">
+                                                <img src="{{ item.get_image_url }}"
+                                                     alt="{{ item }}" title="{{ item }}">
+                                            </a>
+                                        </div>
+                                        <div class="product-bottom">
+                                            <p>
+                                                {% if item.price != 0 %}
+                                                    <span class="price">{{ item.price|intcomma }}₫</span>
+                                                    {% if item.price_sale != 0 %}
+                                                        <span class="price compare-price">{{ item.price_sale|intcomma }}&#8363;</span>
+                                                    {% endif %}
+                                                {% else %}
+                                                    <span class="price">Liên Hệ</span>
+                                                {% endif %}
+                                            </p>
+
+                                            <p title="{{ item }}"><a
+                                                    href="{% url 'product:detail' item.id item.slug %}">{{ item }}</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="clear"></div>
+            <div class="product_top"></div>
+        </div>
+    </div>
+
+    {% for object in object_list %}
+        <div class="container">
+            <div class="product-home fullwidth wow fadeInUp animated">
+                <div class="product-title">
+                    <h3>{{ object.catalogue }}</h3>
+                </div>
+                <div id="featured-product-slider" class="product-content">
+                    <div class="slider-items slider-width-col6">
+                        {% for product in object.products %}
+                            <div class="item">
+                                <div class="product-item">
+                                    {% if product.hot %}
+                                        <div class="sale_badge">
+                                            New
+                                        </div>
+                                    {% endif %}
+
+                                    <div class="product-image">
+                                        <a href="{% url 'product:detail' product.id product.slug %}"
+                                           title="{{ product }}">
+                                            <img src="{{ product.get_image_url }}" alt="{{ product }}"
+                                                 title="{{ product }}">
+                                        </a>
+                                    </div>
+                                    <div class="product-bottom">
+                                        <p>
+                                            {% if product.price != 0 %}
+                                                <span class="price">{{ product.price|intcomma }}₫</span>
+                                                {% if product.price_sale != 0 %}
+                                                    <span class="price compare-price">{{ product.price_sale|intcomma }}&#8363;</span>
+                                                {% endif %}
+                                            {% else %}
+                                                <span class="price">Liên Hệ</span>
+                                            {% endif %}
+                                        </p>
+
+                                        <p id="product-name" title="{{ product }}">
+                                            <a href="{% url 'product:detail' product.id product.slug %}">{{ product }}</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

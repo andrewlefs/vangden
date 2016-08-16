@@ -1,0 +1,28 @@
+{% load post_tag %}
+<tr>
+    <td>{{ item.id }}.</td>
+    <td>
+        {% if loop_root == 0 %}
+            {{ item.name }}
+        {% else %}
+            {{ loop_root|dash }} {{ item.name }}
+        {% endif %}
+    </td>
+    <td>{{ item.slug }}</td>
+    <td class="text-center">
+        <a href="{% url 'admin:update_catalogue' item.id %}">
+            <span class="badge">Sửa</span>
+        </a>
+        {% if request.user.is_superuser %}
+            <a href="#" data-href="{% url 'admin:delete_catalogue' item.id %}"
+               data-toggle="modal" data-target="#confirm-delete">
+                <span class="badge bg-red">Xoá</span>
+            </a>
+        {% endif %}
+    </td>
+</tr>
+{% if item.children.all %}
+    {% for item_child in item.children.all %}
+        {% include "admin/catalogues/parent.html" with item=item_child loop_root=loop_root|count %}
+    {% endfor %}
+{% endif %}

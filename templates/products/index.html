@@ -1,0 +1,277 @@
+{% extends 'layout/base.html' %}
+{% load staticfiles %}
+{% load post_tag %}
+{% load humanize %}
+
+{% block content %}
+    <div class="container">
+        <div class="breadcrumb hidden-xs">
+            <ul>
+                <li><a href="/">Trang chủ</a></li>
+                <li><i class="fa fa-angle-right"></i></li>
+                <li class="active">Toàn bộ sản phẩm</li>
+            </ul>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row template-collection">
+            <aside class="col-md-4 col-xs-12" style="display:none;" id="mobile">
+                <div class="collections" id="cate-mobile">
+                    <h3 class="title">
+                        <span class="mobile-but">
+                        <i class="fa fa-bars"></i>
+                        Danh mục sản phẩm
+                        </span>
+                    </h3>
+                    <ul class="list-collections submenu">
+                        {% for item1 in menu %}
+                            <li class="level0">
+                                <a href="{% url 'catalogue:detail' item1.id item1.slug %}">{{ item1 }}
+                                    {% if item1.children.all %}
+                                        <em class="open-close"></em>
+                                    {% endif %}
+                                </a>
+                                {% if item1.children.all %}
+                                    <ul class="submenu sub02">
+                                        {% for item2 in item1.children.all %}
+                                            <li class="level1">
+                                                <a href="{% url 'catalogue:detail' item2.id item2.slug %}">{{ item2 }}</a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </aside>
+            <aside class="col-md-4 col-xs-12 wow fadeInLeft animated hidden-xs hidden-sm">
+                <div class="collections">
+                    <h3>Danh mục sản phẩm</h3>
+                    <ul class="list-collections submenu">
+                        {% for item1 in menu %}
+                            <li class="level0">
+                                <a href="{% url 'catalogue:detail' item1.id item1.slug %}">{{ item1 }}
+                                    {% if item1.children.all %}
+                                        <em class="open-close"></em>
+                                    {% endif %}
+                                </a>
+                                {% if item1.children.all %}
+                                    <ul class="submenu sub02">
+                                        {% for item2 in item1.children.all %}
+                                            <li class="level1">
+                                                <a href="{% url 'catalogue:detail' item2.id item2.slug %}">{{ item2 }}</a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="sidebar-banner hidden-xs hidden-sm">
+                    <a href="">
+                        <img src="//bizweb.dktcdn.net/100/027/105/themes/35105/assets/banner1.png?1452129776412" alt=""
+                             class="img-responsive">
+                    </a>
+                </div>
+                <div class="sidebar-banner hidden-xs hidden-sm">
+                    <a href="# ">
+                        <img src="//bizweb.dktcdn.net/100/027/105/themes/35105/assets/banner-left.jpg?1452129776412"
+                             alt="" class="img-responsive">
+                    </a>
+                </div>
+            </aside>
+            <div class="col-md-8 col-xs-12">
+                <header class="toolbar">
+                    <img src="{% static 'user/img/grid.png' %}" alt="">
+
+                    <div class="pagination">
+                        <ul class="pull-right">
+                            {% if is_paginated %}
+                                {% if page_obj.has_previous %}
+                                    <li><a href="?page={{ page_obj.previous_page_number }}"><i class="fa fa-caret-left"></i></a></li>
+                                {% endif %}
+
+                                {% for page in page_obj.paginator.page_range %}
+                                    {% if page > page_obj.number|minfilter and page < page_obj.number|maxfilter %}
+                                        {% if page_obj.number != page %}
+                                            <li><a href="?page={{ page }}">{{ page }}</a></li>
+                                        {% else %}
+                                            <li class="active">{{ page }}</li>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+
+                                {% if page_obj.has_next %}
+                                    <li><a href="?page={{ page_obj.next_page_number }}"><i class="fa fa-caret-right"></i></a></li>
+                                {% endif %}
+                            {% endif %}
+                        </ul>
+                    </div>
+                </header>
+
+                <div class="row grid">
+                    {% for product in object_list %}
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <div class="product-item">
+                                {% if product.hot %}
+                                    <div class="sale_badge">
+                                        New
+                                    </div>
+                                {% endif %}
+
+                                <div class="product-image">
+                                    <a href="{% url 'product:detail' product.id product.slug %}">
+                                        <img src="{{ product.get_image_url }}"
+                                             alt="{{ product }}" title="{{ product }}">
+                                    </a>
+                                </div>
+                                <div class="product-bottom">
+                                    <p>
+                                        {% if product.price != 0 %}
+                                            <span class="price">{{ product.price|intcomma }}₫</span>
+                                            {% if product.price_sale != 0 %}
+                                                <span class="price compare-price">{{ product.price_sale|intcomma }}&#8363;</span>
+                                            {% endif %}
+                                        {% else %}
+                                            <span class="price">Liên Hệ</span>
+                                        {% endif %}
+                                    </p>
+
+                                    <p id="product-name" title="{{ product }}"><a
+                                            href="{% url 'product:detail' product.id product.slug %}">{{ product }}</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <footer class="toolbar">
+                    <img src="{% static 'user/img/grid.png' %}" alt="">
+
+                    <div class="pagination">
+                        <ul class="pull-right">
+                            {% if is_paginated %}
+                                {% if page_obj.has_previous %}
+                                    <li><a href="?page={{ page_obj.previous_page_number }}"><i class="fa fa-caret-left"></i></a></li>
+                                {% endif %}
+
+                                {% for page in page_obj.paginator.page_range %}
+                                    {% if page > page_obj.number|minfilter and page < page_obj.number|maxfilter %}
+                                        {% if page_obj.number != page %}
+                                            <li><a href="?page={{ page }}">{{ page }}</a></li>
+                                        {% else %}
+                                            <li class="active">{{ page }}</li>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+
+                                {% if page_obj.has_next %}
+                                    <li><a href="?page={{ page_obj.next_page_number }}"><i class="fa fa-caret-right"></i></a></li>
+                                {% endif %}
+                            {% endif %}
+                        </ul>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="blog-home ">
+                    <div class="row">
+                        <section class="block-featured-blog">
+                            <div class="col-md-7 col-sm-12 fullwidth col-xs-12 wow fadeInLeft animated">
+                                <!--<div class="pagination-owl-carousel">
+                                    <div class="arrow-left-ft-blog">
+                                        <img src="{% static 'user/img/left1.png' %}">
+                                    </div>
+                                    <div class="arrow-right-ft-blog">
+                                        <img src="{% static 'user/img/right1.png' %}">
+                                    </div>
+                                </div>-->
+                                <div class="product-title">
+                                    <h3>Blog tư vấn</h3>
+                                </div>
+                                <div class="owl-featured-blog">
+                                    <div class="row">
+                                        {% for item in posts %}
+                                            <div class="col-md-12 col-sm-12">
+                                                <div class="blog-item">
+                                                    <div class="feature row">
+                                                        <div class="feature-icon col-md-3 col-sm-12">
+                                                            <a class="ft-thumb"
+                                                               href="{% url 'post:detail' item.id item.slug %}">
+                                                                <img src="{{ item.get_image_url }}"
+                                                                     alt="{{ item }}">
+                                                            </a>
+                                                        </div>
+                                                        <div class="col-md-9 col-sm-12">
+                                                            <h5><a class="blog-title"
+                                                                   href="{% url 'post:detail' item.id item.slug %}">{{ item }}</a></h5>
+
+                                                            <div class="blog-info">
+                                                                <i class="fa fa-clock-o"></i> Đăng bởi <a>HL Computer</a> |
+                                                                {{ item.created_date|date:'d/m/Y' }}
+                                                            </div>
+                                                            <p> {{ item.description|truncatechars:110 }}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-5 col-sm-5 hidden-xs hidden-sm blog_right wow fadeInRight animated">
+                                <div class="support_right">
+                                    <h3><a href="/tin-tuc">Hỗ trợ mua hàng</a></h3>
+                                    <ul>
+                                        <li>
+                                            <p>Vận chuyển</p>
+                                            <span>Miễn phí bán kính nhỏ hơn 200km</span>
+                                        </li>
+                                        <li>
+                                            <p>Thanh toán COD</p>
+                                            <span>Thanh toán khi nhận được hàng</span>
+                                        </li>
+                                        <li>
+                                            <p>Đổi trả hàng</p>
+                                            <span>Thời gian đổi trả hàng lên đến 30 ngày</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+                        <script>
+                            $(document).ready(function () {
+                                var owlfeaturedblog = $('.owl-featured-blog');
+                                owlfeaturedblog.owlCarousel({
+                                    items: 1, //10 items above 1000px browser width
+                                    itemsDesktop: [1000, 1], //5 items between 1000px and 901px
+                                    itemsDesktopSmall: [900, 1], // betweem 900px and 601px
+                                    itemsTablet: [600, 1], //2 items between 600 and 0
+                                    itemsMobile: false, // itemsMobile disabled - inherit from itemsTablet option
+                                    slideSpeed: 900,
+                                    autoPlay: false,
+                                    pagination: false
+
+                                });
+                                $(".pagination-owl-carousel .arrow-right-ft-blog").click(function () {
+                                    owlfeaturedblog.trigger('owl.next');
+                                })
+                                $(".pagination-owl-carousel .arrow-left-ft-blog").click(function () {
+                                    owlfeaturedblog.trigger('owl.prev');
+                                })
+                            });
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

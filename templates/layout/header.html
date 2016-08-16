@@ -1,0 +1,65 @@
+{% load staticfiles %}
+
+<header id="header" class="index">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 col-xs-6">
+                <a href="/" id="logo">
+                    <h2 style="color: white; font-weight: bold;">Vangden.vn</h2>
+                    <!--<img alt="Thế giới công nghệ" title="Thế giới công nghệ" src="{% static 'user/img/logo.png' %}">-->
+                </a>
+            </div>
+            <div class="col-md-7 hidden-sm hidden-xs">
+                <ul class="main-nav">
+                    <li class="active"><a href="/">Trang chủ</a></li>
+                    <!--class=" has_megamenu"-->
+                    <li>
+                        <a href="{% url 'product:index' %}">Sản phẩm</a>
+                        <!--<a href="#">Sản phẩm <i class="fa fa-angle-down"></i></a>-->
+
+                        <!--<div class="mega_menu" style="display:none;">
+                            <div class="mega_menu_item">
+                                <h3><a href="#">Sản phẩm nổi bật</a></h3>
+                            </div>
+                            <div class="mega_menu_item">
+                                <h3><a href="#">Sản phẩm mới</a></h3>
+                            </div>
+                            <div class="mega_menu_item">
+                                <h3><a href="#">Sản phẩm khuyến mãi</a></h3>
+                            </div>
+                        </div>-->
+                    </li>
+                    <li><a href="{% url 'post:index' %}">Blog</a></li>
+                    <li><a href="{% url 'home:contact' %}">Giới thiệu</a></li>
+                </ul>
+            </div>
+            <div class="col-md-2 col-xs-6 widget-user">
+                <div class="pull-right search-topbar hidden-xs">
+                    <form action="{% url 'product:index' %}" method="get">
+                        <input type="text" name="search" class="input-control" placeholder="Tìm kiếm..." value="">
+                        <button id="icon-search"><i class="fa fa-search"></i></button>
+                    </form>
+                </div>
+                <div class="toogle-mobile-menu hidden-md hidden-lg">
+                    <a href="javascript:void(0);" class=""><i class="fa fa-bars"></i></a>
+                </div>
+            </div>
+        </div>
+        <nav class="mobile-menu hidden-md hidden-lg">
+            <ul class="mobile-nav" style="display:none">
+                <li class="level0"><a href="/">Trang chủ</a></li>
+                <li class="level0">
+                    <a href="{% url 'product:index' %}">Sản phẩm</a>
+                    <!--<ul class="level0" style="display:none;">
+                        <li class="level1"><a href="#">Sản phẩm nổi bật</a></li>
+                        <li class="level1"><a href="#">Sản phẩm mới</a></li>
+                        <li class="level1"><a href="#">Sản phẩm khuyến mãi</a></li>
+                    </ul>-->
+                </li>
+                <li class="level0"><a href="{% url 'post:index' %}">Blog</a></li>
+                <li class="level0"><a href="{% url 'home:contact' %}">Giới thiệu</a></li>
+                <li><a href="#">Tìm kiếm</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>

@@ -1,0 +1,61 @@
+{% extends 'layout/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+    <div class="container">
+
+        <div class="breadcrumb hidden-xs">
+            <ul>
+                <li><a href="/">Trang chủ</a></li>
+                <li><i class="fa fa-angle-right"></i></li>
+
+                <li><a href="{% url 'post:index' %}">Tin tức</a></li>
+                <li><i class="fa fa-angle-right"></i></li>
+                <li class="active">{{ post.name }}.</li>
+
+            </ul>
+        </div>
+        <div class="row">
+            <div style="margin-top:30px;">
+                <aside class="col-md-3 hidden-xs hidden-sm">
+                    <div class="sidebar-blog">
+                        <h3>Bài viết mới nhất </h3>
+                        {% for item in posts %}
+                            <div class="article">
+                                <a href="{% url 'post:detail' item.id item.slug %}">
+                                    <img src="{{ item.get_image_url }}" alt="{{ item }}">
+                                </a>
+
+                                <div class="title">
+                                    <a href="{% url 'post:detail' item.id item.slug %}">{{ item }}</a>
+
+                                    <p id="author">Đăng bởi Admin</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                </aside>
+                <div class="col-md-9">
+                    <div class="rte article-content">
+                        <h3>{{ post.name }}.</h3>
+
+                        <p class="author">
+                            <span id="author">Admin ({{ post.created_date|date:'d/m/Y' }})</span>
+                        </p>
+                        <span class="clear"></span>
+
+                        {{ post.content|safe }}
+
+                        <p>&nbsp;</p>
+
+                    </div>
+
+                    <div class="comment-content">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

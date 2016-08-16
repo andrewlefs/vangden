@@ -1,0 +1,230 @@
+{% extends 'layout/base.html' %}
+{% load staticfiles %}
+{% load humanize %}
+
+{% block css %}
+    <link href="{% static 'user/css/ProductRecentStyle.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="breadcrumb hidden-xs">
+            <ul>
+                <li><a href="/">Trang chủ</a></li>
+                <li><i class="fa fa-angle-right"></i></li>
+                <li><a href="{% url 'catalogue:detail' product.catalogue.id product.catalogue.slug %}">{{ product.catalogue.name }}</a></li>
+                <li><i class="fa fa-angle-right"></i></li>
+                <li class="active">{{ product }}</li>
+            </ul>
+        </div>
+        <div class="template-product row">
+            <div class="col-md-9 col-sm-12 ">
+                <div class="wrap-product-top row">
+                    <div class="col-md-5 col-sm-5 col-xs-12 popup-gallery">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="product-image inner-cloud-zoom">
+                                    <a href="#" id="ex1">
+                                        <img src="{{ product.get_image_url }}"
+                                             title="{{ product }}" alt="{{ product }}" id="image"
+                                             itemprop="image"
+                                             data-zoom-image="{{ product.get_image_url }}">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End .popup-gallery -->
+                    <div class="col-md-7 col-sm-7 col-xs-12 product-info">
+
+                        <link itemprop="availability" href="http://schema.org/InStock">
+
+                        <h3>{{ product }}</h3>
+
+                        <p class="price">
+                            {% if product.price != 0 %}
+                                <span class="price">{{ product.price|intcomma }}₫</span>
+                                {% if product.price_sale != 0 %}
+                                    <span class="price compare-price">{{ product.price_sale|intcomma }}&#8363;</span>
+                                {% endif %}
+                            {% else %}
+                                <span class="price">Liên Hệ</span>
+                            {% endif %}
+                        </p>
+
+                        <p id="description">
+                            {{ product.description|safe }}
+                        </p>
+
+                        <p id="vendor"><b>Hãng sản xuất:</b> {{ product.catalogue.name }}</p>
+                        <p><b>Liên hệ - Anh Cường:</b> 0982.934.068</p>
+                        <p><b>Liên hệ - Anh Hiệp:</b> 0988.343.896</p>
+                        <p><b>Liên hệ - Anh Dũng:</b> 0986.806.458</p>
+                    </div>
+                </div>
+                <div class="clear"></div>
+                <div class="wrap-product-bottom row">
+                    <div class="col-md-12">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#tab-1" aria-controls="tab-1" role="tab"
+                                                                      data-toggle="tab">Thông tin</a></li>
+                            <li role="presentation">
+                                <a href="#tab-2" aria-controls="tab-2" role="tab" data-toggle="tab">Ghi chú</a>
+                            </li>
+                            <!--<li role="presentation"><a href="#tab-3" aria-controls="tab-3" role="tab" data-toggle="tab">Tabg
+                                3</a></li>-->
+                        </ul>
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="tab-1">
+                                <div class="rte">
+                                    <h4>Sản phẩm: {{ product.name }}</h4>
+                                    <embed src="{{ product.attachment.url }}" width="100%" height="600" type='application/pdf'>
+                                </div>
+                            </div>
+
+                            <div role="tabpanel" class="tab-pane" id="tab-2">
+                                <div class="rte">
+                                    {{ product.content|safe }}
+                                </div>
+                            </div>
+
+                            <div role="tabpanel" class="tab-pane" id="tab-3">Nội dung</div>
+
+                        </div>
+                    </div>
+
+                    <div class="clear"></div>
+                </div>
+                <div class="product_top"></div>
+
+                <div class="product-daitel fullwidth">
+                    <div class="product-title">
+                        <h3>Sản phẩm liên quan</h3>
+                    </div>
+                    <div id="featured-product-daitel-slider" class="product-content">
+                        <div class="slider-items slider-width-col6">
+                            {% for item in relates %}
+                                <div class="item">
+                                    <div class="product-item">
+                                        {% if item.hot %}
+                                            <div class="sale_badge">
+                                                New
+                                            </div>
+                                        {% endif %}
+
+                                        <div class="product-image">
+                                            <a href="{% url 'product:detail' item.id item.slug %}">
+                                                <img src="{{ item.get_image_url }}"
+                                                     alt="{{ item }}" title="{{ item }}">
+                                            </a>
+                                        </div>
+                                        <div class="product-bottom">
+                                            <p>
+                                                {% if item.price != 0 %}
+                                                    <span class="price">{{ item.price|intcomma }}₫</span>
+                                                    {% if item.price_sale != 0 %}
+                                                        <span class="price compare-price">{{ item.price_sale|intcomma }}&#8363;</span>
+                                                    {% endif %}
+                                                {% else %}
+                                                    <span class="price">Liên Hệ</span>
+                                                {% endif %}
+                                            </p>
+
+                                            <p id="product-name" title="{{ item }}">
+                                                <a href="{% url 'product:detail' item.id item.slug %}">{{ item|truncatechars:60 }}</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <aside class="col-md-3 hidden-xs hidden-sm">
+                <div class="collections">
+                    <h3>Danh mục sản phẩm</h3>
+                    <ul class="list-collections submenu">
+                        {% for item1 in menu %}
+                            <li class="level0">
+                                <a href="{% url 'catalogue:detail' item1.id item1.slug %}">{{ item1 }}
+                                    {% if item1.children.all %}
+                                        <em class="open-close"></em>
+                                    {% endif %}
+                                </a>
+                                {% if item1.children.all %}
+                                    <ul class="submenu sub02">
+                                        {% for item2 in item1.children.all %}
+                                            <li class="level1">
+                                                <a href="{% url 'catalogue:detail' item2.id item2.slug %}">{{ item2 }}</a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div class="box sidebar-product">
+                    <h3 class="sidebar-title">Sản phẩm mới</h3>
+
+                    <div style="visibility: visible;-webkit-animation-duration: 1.5s; -moz-animation-duration: 1.5s; animation-duration: 1.5s;-webkit-animation-delay: 0.15s; -moz-animation-delay: 0.15s; animation-delay: 0.15s;"
+                         class="product-content row wow fadeInUp animated animated" data-wow-offset="30"
+                         data-wow-duration="1.5s" data-wow-delay="0.15s">
+
+                        {% for item in products %}
+                            <div class="col-md-12">
+                                <div class="product-box">
+                                    <div class="col-md-5 col-sm-5 product-image">
+                                        <a href="{% url 'product:detail' item.id item.slug %}">
+                                            <img src="{{ item.get_image_url }}"
+                                                 alt="{{ item }}">
+                                        </a>
+                                        <!-- end product-buttons -->
+                                    </div>
+                                    <div class="col-md-7 col-sm-7 product-info">
+                                        <h4 class="product-name"><a
+                                                href="{% url 'product:detail' item.id item.slug %}">{{ item }}</a></h4>
+                                        <span class="product-price">
+                                            {% if item.price != 0 %}
+                                                <span class="price">{{ item.price|intcomma }}₫</span>
+                                                {% if item.price_sale != 0 %}
+                                                    <span class="price compare-price">{{ item.price_sale|intcomma }}&#8363;</span>
+                                                {% endif %}
+                                            {% else %}
+                                                <span class="price">Liên Hệ</span>
+                                            {% endif %}
+                                        </span>
+                                    </div>
+                                </div>
+                                <!-- end product-box -->
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".thumbnails-carousel").owlCarousel({
+                autoPlay: 6000, //Set AutoPlay to 3 seconds
+                navigation: true,
+                navigationText: ['', ''],
+                itemsCustom: [
+                    [0, 4],
+                    [450, 5],
+                    [550, 6],
+                    [768, 3],
+                    [1200, 4]
+                ],
+            });
+        });
+    </script>
+{% endblock %}
